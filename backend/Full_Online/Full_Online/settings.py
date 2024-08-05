@@ -39,12 +39,13 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 
 ALLOWED_HOSTS = ["full-online-shop-angular-django-production.up.railway.app",
-                 "localhost"
+                 "localhost",
                  "127.0.0.1"
                  ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://full-online-shop-angular-django-production.up.railway.app"
+    'https://full-online-shop-angular-django-production.up.railway.app'
+    
 ]
 
 
