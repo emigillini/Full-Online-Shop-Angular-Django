@@ -25,9 +25,9 @@ export class ApiFallbackInterceptor implements HttpInterceptor {
             tap(() => console.info(`Successfully connected to remote URL: ${this.remoteBaseUrl}`)),
             catchError((remoteError: HttpErrorResponse) => {
               
-              console.error('Error connecting to remote URL:', remoteError);
+              console.error('Error connecting to remote URL:');
            
-              return throwError(() => new Error('Request failed after fallback'));
+              return throwError(() => error);
             })
           );
         }
