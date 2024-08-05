@@ -6,7 +6,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 @Injectable()
 export class ApiFallbackInterceptor implements HttpInterceptor {
   private readonly localBaseUrl = 'http://127.0.0.1:8000/api';
-  private readonly remoteBaseUrl = 'http://full-online-shop-angular-django-production.up.railway.app/api';
+  private readonly remoteBaseUrl = 'https://full-online-shop-angular-django-production.up.railway.app/api';
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const localReq = this.cloneRequestWithBaseUrl(req, this.localBaseUrl);
