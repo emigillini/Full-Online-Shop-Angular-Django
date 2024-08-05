@@ -38,7 +38,14 @@ STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://full-online-shop-angular-django-production.up.railway.app",
+                 "localhost"
+                 "127.0.0.1"
+                 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://full-online-shop-angular-django-production.up.railway.app"
+]
 
 
 # Application definition
