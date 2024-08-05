@@ -97,7 +97,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOWED_METHODS = [
     "GET",
     "POST",
@@ -116,8 +116,12 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "https://full-online-shop-angular-django-production.up.railway.app",
+]
 
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "Full_Online.urls"
 

@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ApiFallbackInterceptor } from './interceptors/api-fallback.interceptor';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { routes } from './app.routes';
 import {
@@ -21,6 +22,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: authInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiFallbackInterceptor, 
       multi: true,
     },
   ],

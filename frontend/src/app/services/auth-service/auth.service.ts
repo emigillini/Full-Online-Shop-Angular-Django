@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, finalize } from 'rxjs';
-import { ENDPOINT } from '../../utils/utils';
 import { BehaviorSubject } from 'rxjs';
 import {
   NewUser,
@@ -63,7 +62,7 @@ export class AuthService {
 
   public login(user: UserLogin): Observable<LoginResponse> {
     this.loaderService.show();
-    return this.http.post<LoginResponse>(`${ENDPOINT}login/`, user).pipe(
+    return this.http.post<LoginResponse>(`login/`, user).pipe(
       tap((response) => {
         const userEmail = response.user.email!;
         const expiresIn = response.expires_in;
@@ -83,7 +82,7 @@ export class AuthService {
   public register(user: NewUser): Observable<UserRegistrationResponse> {
     this.loaderService.show();
     return this.http
-      .post<UserRegistrationResponse>(`${ENDPOINT}register/`, user)
+      .post<UserRegistrationResponse>(`register/`, user)
       .pipe(
         catchError((error) => {
           this.loaderService.hide();
@@ -97,7 +96,7 @@ export class AuthService {
   public logout(): Observable<LogoutResponse> {
     this.loaderService.show();
 
-    return this.http.post<LogoutResponse>(ENDPOINT + 'logout/', {}).pipe(
+    return this.http.post<LogoutResponse>( 'logout/', {}).pipe(
       tap(() => {
         this.isLogged.next(false);
         this.isAdmin.next(false);
@@ -137,7 +136,7 @@ export class AuthService {
     const body: PasswordResetRequest = { email };
     return this.http
       .post<PasswordResetRequestResponse>(
-        `${ENDPOINT}reset-password-request/`,
+        `reset-password-request/`,
         body
       )
       .pipe(
@@ -160,7 +159,7 @@ export class AuthService {
     };
     return this.http
       .post<PasswordResetConfirmResponse>(
-        `${ENDPOINT}reset-password/${uid}/${token}/`,
+        `reset-password/${uid}/${token}/`,
         body
       )
       .pipe(

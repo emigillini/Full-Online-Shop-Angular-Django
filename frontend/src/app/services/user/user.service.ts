@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ENDPOINT } from '../../utils/utils';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs';
 import { User } from '../../types/types';
@@ -15,7 +14,7 @@ export class UserService {
 
   getUser(): Observable<User> {
     this.loaderService.show();
-    return this.http.get<User>(ENDPOINT + 'user/').pipe(
+    return this.http.get<User>( 'user/').pipe(
       catchError((error) => {
         console.error('Error occurred while fetching user:', error);
         throw error;
@@ -26,7 +25,7 @@ export class UserService {
 
   updateUser(data: Partial<User>): Observable<User> {
     this.loaderService.show();
-    return this.http.patch<User>(ENDPOINT + 'user/update/', data).pipe(
+    return this.http.patch<User>( 'user/update/', data).pipe(
       catchError((error) => {
         console.error('Error occurred while updating user:', error);
         throw error;

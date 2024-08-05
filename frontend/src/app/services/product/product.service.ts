@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-import { ENDPOINT } from '../../utils/utils';
 import { NewProduct, Product } from '../../types/types';
 import { Observable } from 'rxjs';
 import { catchError, tap, finalize } from 'rxjs/operators';
@@ -35,7 +34,7 @@ export class ProductService {
     if (filters.has_stock !== undefined) {
       params = params.set('has_stock', filters.has_stock);
     }
-    return this.http.get<Product[]>(`${ENDPOINT}products/`, { params }).pipe(
+    return this.http.get<Product[]>(`products/`, { params }).pipe(
       catchError((error) => {
         console.error('Error occurred while fetching products:', error);
         throw error;
@@ -46,7 +45,7 @@ export class ProductService {
 
   public getProductById(id: number): Observable<Product> {
     this.loaderService.show();
-    return this.http.get<Product>(`${ENDPOINT}products/${id}/`).pipe(
+    return this.http.get<Product>(`products/${id}/`).pipe(
       catchError((error) => {
         console.error(
           `Error occurred while fetching product with ID ${id}:`,
@@ -67,7 +66,7 @@ export class ProductService {
     }
 
     return this.http
-      .get<Product>(`${ENDPOINT}products/get_random_product_excluding_id/`, {
+      .get<Product>(`products/get_random_product_excluding_id/`, {
         params,
       })
       .pipe(
@@ -80,7 +79,7 @@ export class ProductService {
   public patchProductStock(id: number, stock: number): Observable<Product> {
     this.loaderService.show();
     return this.http
-      .patch<Product>(`${ENDPOINT}products/${id}/`, { stock })
+      .patch<Product>(`products/${id}/`, { stock })
       .pipe(
         catchError((error) => {
           console.error('Error occurred while updating product stock:', error);
@@ -91,7 +90,7 @@ export class ProductService {
   }
   public addProduct(product: NewProduct): Observable<Product> {
     this.loaderService.show();
-    return this.http.post<Product>(`${ENDPOINT}products/`, product).pipe(
+    return this.http.post<Product>(`products/`, product).pipe(
       catchError((error) => {
         console.error('Error occurred while adding product:', error);
         throw error;
@@ -100,7 +99,7 @@ export class ProductService {
     );
   }
   getShoeModels(): Observable<ShoeModelType[]> {
-    return this.http.get<ShoeModelType[]>(`${ENDPOINT}model/`).pipe(
+    return this.http.get<ShoeModelType[]>(`model/`).pipe(
       catchError((error) => {
         console.error(`Error occurred while fetching models:`, error);
         throw error;
@@ -108,7 +107,7 @@ export class ProductService {
     );
   }
   getBrands(): Observable<BrandType[]> {
-    return this.http.get<BrandType[]>(`${ENDPOINT}brand/`).pipe(
+    return this.http.get<BrandType[]>(`brand/`).pipe(
       catchError((error) => {
         console.error(`Error occurred while fetching brands:`, error);
         throw error;
@@ -116,7 +115,7 @@ export class ProductService {
     );
   }
   getSizes(): Observable<SizeType[]> {
-    return this.http.get<SizeType[]>(`${ENDPOINT}size/`).pipe(
+    return this.http.get<SizeType[]>(`size/`).pipe(
       catchError((error) => {
         console.error(`Error occurred while fetching sizes:`, error);
         throw error;
@@ -125,7 +124,7 @@ export class ProductService {
   }
 
   getColors(): Observable<ColorType[]> {
-    return this.http.get<ColorType[]>(`${ENDPOINT}color/`).pipe(
+    return this.http.get<ColorType[]>(`color/`).pipe(
       catchError((error) => {
         console.error(`Error occurred while fetching colors:`, error);
         throw error;

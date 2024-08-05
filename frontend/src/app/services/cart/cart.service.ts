@@ -5,11 +5,9 @@ import {
   AddProductResponse,
   Cart,
   NewItem,
-  PurchaseConfirmationResponse,
   RemoveItemRequest,
   RemoveItemResponse,
 } from '../../types/types';
-import { ENDPOINT } from '../../utils/utils';
 import { catchError } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { tap, finalize } from 'rxjs';
@@ -40,7 +38,7 @@ export class CartService {
 
   public getCart(): Observable<Cart> {
     this.loaderService.show();
-    return this.http.get<Cart>(ENDPOINT + 'cart/get_items/').pipe(
+    return this.http.get<Cart>('cart/get_items/').pipe(
       tap((cart) => {
         this.cartSubject.next(cart);
         this.updateTotal(cart);
@@ -60,7 +58,7 @@ export class CartService {
     this.loaderService.show();
     const newItem: NewItem = { product_id, quantity };
     return this.http
-      .post<AddProductResponse>(ENDPOINT + 'cart/add_product/', newItem)
+      .post<AddProductResponse>('cart/add_product/', newItem)
       .pipe(
         tap(() => {
           this.getCart().subscribe();
@@ -77,7 +75,7 @@ export class CartService {
     this.loaderService.show();
     const removeItem: RemoveItemRequest = { item_id };
     return this.http
-      .delete<RemoveItemResponse>(ENDPOINT + 'cart/remove_item/', {
+      .delete<RemoveItemResponse>('cart/remove_item/', {
         body: removeItem,
       })
       .pipe(

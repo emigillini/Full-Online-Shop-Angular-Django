@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { LoaderService } from '../loader/loader.service';
 import { catchError } from 'rxjs';
 import { finalize } from 'rxjs';
-import { ENDPOINT } from '../../utils/utils';
 import { EmailData, EmailResponse } from '../../types/types';
 
 @Injectable({
@@ -16,7 +15,7 @@ export class EmailService {
   sendEmail(emailData: EmailData): Observable<EmailResponse> {
     this.loaderService.show();
     return this.http
-      .post<EmailResponse>(`${ENDPOINT}send_mail/`, emailData)
+      .post<EmailResponse>(`send_mail/`, emailData)
       .pipe(
         catchError((error) => {
           console.error('Error occurred while sending Email :', error);

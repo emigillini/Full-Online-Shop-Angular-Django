@@ -6,7 +6,6 @@ import {
   DeliveryStatusResponse,
   UpdateDeliveryStatusRequest,
 } from '../../types/types';
-import { ENDPOINT } from '../../utils/utils';
 import { catchError } from 'rxjs';
 import { LoaderService } from '../loader/loader.service';
 import { tap, finalize } from 'rxjs';
@@ -19,7 +18,7 @@ export class DeliveryService {
 
   getDeliveries(): Observable<Delivery[]> {
     this.loaderService.show();
-    return this.http.get<Delivery[]>(`${ENDPOINT}deliveries/`).pipe(
+    return this.http.get<Delivery[]>(`deliveries/`).pipe(
       catchError((error) => {
         console.error('Error occurred while updating product stock:', error);
         throw error;
@@ -33,7 +32,7 @@ export class DeliveryService {
   ): Observable<DeliveryStatusResponse> {
     this.loaderService.show();
     return this.http
-      .patch<DeliveryStatusResponse>(`${ENDPOINT}deliveries/`, request)
+      .patch<DeliveryStatusResponse>(`deliveries/`, request)
       .pipe(
         catchError((error) => {
           console.error('Error occurred while updating product stock:', error);

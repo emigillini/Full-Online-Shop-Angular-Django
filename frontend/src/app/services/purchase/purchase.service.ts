@@ -6,7 +6,6 @@ import {
   PaymentTypes,
   EmailData,
 } from '../../types/types';
-import { ENDPOINT } from '../../utils/utils';
 import { tap, finalize } from 'rxjs';
 import { CartService } from '../cart/cart.service';
 import { catchError } from 'rxjs';
@@ -45,7 +44,7 @@ export class PurchaseService {
     this.loaderService.show();
     return this.http
       .post<PurchaseConfirmationResponse>(
-        ENDPOINT + 'purchase/confirm_purchase/',
+        'purchase/confirm_purchase/',
         { Payment_method_id }
       )
       .pipe(
@@ -81,7 +80,7 @@ export class PurchaseService {
   }
 
   public getPaymentMethodTypes(): Observable<PaymentTypes[]> {
-    return this.http.get<PaymentTypes[]>(ENDPOINT + 'payment-mode/').pipe(
+    return this.http.get<PaymentTypes[]>('payment-mode/').pipe(
       catchError((error) => {
         console.error('Error occurred while fetching purchases:', error);
         throw error;
@@ -92,7 +91,7 @@ export class PurchaseService {
   public getPurchases(): Observable<Purchase[]> {
     this.loaderService.show();
     return this.http
-      .get<Purchase[]>(ENDPOINT + 'purchase/user_purchases/')
+      .get<Purchase[]>('purchase/user_purchases/')
       .pipe(
         tap(() => {
           this.cartService.getCart().subscribe();
