@@ -44,6 +44,7 @@ export class CartService {
         this.updateTotal(cart);
       }),
       catchError((error) => {
+        console.error(`Error occurred while fetching cart items:`);
         throw error;
       }),
       finalize(() => this.loaderService.hide())

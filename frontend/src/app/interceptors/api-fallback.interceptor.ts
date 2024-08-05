@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, tap } from 'rxjs';
+import { Observable, throwError , tap} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -31,13 +31,12 @@ export class ApiFallbackInterceptor implements HttpInterceptor {
             })
           );
         }
-   
+        
         return throwError(() => error);
       })
     );
   }
 
-  
   private cloneRequestWithBaseUrl(req: HttpRequest<any>, baseUrl: string): HttpRequest<any> {
     return req.clone({ url: `${baseUrl}/${req.url}` });
   }
