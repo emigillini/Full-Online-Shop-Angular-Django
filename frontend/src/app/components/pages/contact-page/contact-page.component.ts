@@ -4,6 +4,8 @@ import { EmailData } from '../../../types/types';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service/auth.service';
 import { COMPANYEMAIL } from '../../../utils/utils';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-contact-page',
@@ -55,7 +57,16 @@ export class ContactPageComponent implements OnInit {
     this.emailService.sendEmail(emailData).subscribe({
       next: (response) => {
         console.log(response);
-        alert('Email sent successfully');
+        Swal.fire({
+          title: 'Email sent successfully',
+          icon: 'success',
+          color: '#ffffff',
+          width: 300,
+          heightAuto: true,
+          background: '#000',
+          showConfirmButton: true,
+          confirmButtonColor: '#000',
+        });
         this.subject = '';
         this.message = '';
         this.toEmail = '';
