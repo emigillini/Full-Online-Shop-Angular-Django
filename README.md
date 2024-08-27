@@ -3,6 +3,7 @@ Project with Typescript, Angular, Django, MySQL.
 # Online Store Project
 
 This project is a fully-featured online store developed with Angular for the frontend and Django for the backend. It utilizes a MySQL database to handle data storage and management.
+The project is a migration from a previous version of the store, which was built using Angular, Express, and Mongodb. The functionalities have been adapted and optimized to fit the new stack.
 
 ## Key Features
 
