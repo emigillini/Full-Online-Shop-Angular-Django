@@ -71,9 +71,9 @@ export class CartService {
       );
   }
 
-  public deleteItem(item_id: number): Observable<RemoveItemResponse> {
+  public deleteItem(product_id: number): Observable<RemoveItemResponse> {
     this.loaderService.show();
-    const removeItem: RemoveItemRequest = { item_id };
+    const removeItem: RemoveItemRequest = { product_id };
     return this.http
       .delete<RemoveItemResponse>('cart/remove_item/', {
         body: removeItem,

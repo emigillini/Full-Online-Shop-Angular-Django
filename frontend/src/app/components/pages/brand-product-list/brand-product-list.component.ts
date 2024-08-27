@@ -52,6 +52,7 @@ export class BrandProductListComponent implements OnInit {
   private loadBrands(): void {
     this.productService.getBrands().subscribe({
       next: (brands) => {
+        console.log('Brands fetched:', brands); // Agregar esto
         this.brands = brands;
         this.loadProductsForBrand();
       },

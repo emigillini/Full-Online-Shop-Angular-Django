@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { NewProduct, Product } from '../../types/types';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap, finalize } from 'rxjs/operators';
 import {
   ShoeModelType,
@@ -11,12 +11,19 @@ import {
   ColorType,
 } from '../../types/types';
 import { LoaderService } from '../loader/loader.service';
+import { CacheService } from '../cache/cache.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  constructor(private http: HttpClient, private loaderService: LoaderService) {}
+  private readonly CACHE_DURATION = 15 * 60 * 1000;
+  constructor(
+    private http: HttpClient,
+    private loaderService: LoaderService,
+    private productCacheService: CacheService<Product[]>,
+    private brandCacheService: CacheService<BrandType[]>
+  ) {}
 
   public getProducts(filters: any = {}): Observable<Product[]> {
     this.loaderService.show();
@@ -34,13 +41,31 @@ export class ProductService {
     if (filters.has_stock !== undefined) {
       params = params.set('has_stock', filters.has_stock);
     }
+
+    const cacheKey = this.createCacheKey(filters);
+
+    const cachedProducts = this.productCacheService.get(cacheKey);
+    if (cachedProducts) {
+      console.log('Returning cached data for:', cacheKey);
+      this.loaderService.hide();
+      return of(cachedProducts);
+    } else {
+      console.log('Making a new request for products');
+    }
     return this.http.get<Product[]>(`products/`, { params }).pipe(
+      tap((data) => {
+        console.log('Caching data for:', cacheKey);
+        this.productCacheService.set(cacheKey, data, this.CACHE_DURATION);
+      }),
       catchError((error) => {
         console.error('Error occurred while fetching products:', error);
         throw error;
       }),
       finalize(() => this.loaderService.hide())
     );
+  }
+  private createCacheKey(filters: any): string {
+    return JSON.stringify(filters);
   }
 
   public getProductById(id: number): Observable<Product> {
@@ -56,6 +81,7 @@ export class ProductService {
       finalize(() => this.loaderService.hide())
     );
   }
+
   public getRandomProductExcluding(
     currentProductId?: number
   ): Observable<Product> {
@@ -78,15 +104,13 @@ export class ProductService {
   }
   public patchProductStock(id: number, stock: number): Observable<Product> {
     this.loaderService.show();
-    return this.http
-      .patch<Product>(`products/${id}/`, { stock })
-      .pipe(
-        catchError((error) => {
-          console.error('Error occurred while updating product stock:', error);
-          throw error;
-        }),
-        finalize(() => this.loaderService.hide())
-      );
+    return this.http.patch<Product>(`products/${id}/`, { stock }).pipe(
+      catchError((error) => {
+        console.error('Error occurred while updating product stock:', error);
+        throw error;
+      }),
+      finalize(() => this.loaderService.hide())
+    );
   }
   public addProduct(product: NewProduct): Observable<Product> {
     this.loaderService.show();
@@ -107,7 +131,19 @@ export class ProductService {
     );
   }
   getBrands(): Observable<BrandType[]> {
+    const cacheKey = 'brands';
+    const cachedBrands = this.brandCacheService.get(cacheKey);
+    if (cachedBrands) {
+      console.log('Returning cached data for brands');
+      return of(cachedBrands);
+    } else {
+      console.log('Making a new request for brands');
+    }
     return this.http.get<BrandType[]>(`brand/`).pipe(
+      tap((data) => {
+        console.log('Caching data for brands');
+        this.brandCacheService.set(cacheKey, data, this.CACHE_DURATION);
+      }),
       catchError((error) => {
         console.error(`Error occurred while fetching brands:`, error);
         throw error;

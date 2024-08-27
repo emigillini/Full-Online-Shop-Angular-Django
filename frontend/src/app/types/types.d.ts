@@ -66,7 +66,7 @@ export interface AddProductResponse {
 }
 
 export interface RemoveItemRequest {
-  item_id: number;
+  product_id: number;
 }
 
 export interface RemoveItemResponse {
@@ -226,4 +226,8 @@ export interface Message {
 export interface NewMessage {
   content: string;
   conversation: number;
+}
+export interface CacheEntry<T> {
+  data: T;
+  expiry: number;
 }

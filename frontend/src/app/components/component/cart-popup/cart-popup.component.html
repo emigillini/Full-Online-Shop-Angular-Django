@@ -36,13 +36,15 @@
               <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
                 <div>
                   <dt class="inline">{{ item.product.brand?.description }}</dt>
-                  <dd class="inline">{{ item.product.model?.model }}</dd>
                 </div>
                 <div>
-                  <dt class="inline">{{ item.product.price }}</dt>
+                  <dt class="inline">{{ item.product.model?.model }}</dt>
                 </div>
                 <div>
-                  <dt class="inline">{{ item.quantity }}</dt>
+                  <dt class="inline">Price:{{ item.product.price }}</dt>
+                </div>
+                <div>
+                  <dt class="inline">Quantity: {{ item.quantity }}</dt>
                 </div>
               </dl>
             </div>
